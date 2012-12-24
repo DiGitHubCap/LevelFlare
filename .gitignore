@@ -4,3 +4,14 @@
 *.jar
 *.war
 *.ear
+
+# Eclipse #
+*.classpath
+*.project
+
+# System #
+.directory
+*~
+
+# Unknown #
+*.orig
