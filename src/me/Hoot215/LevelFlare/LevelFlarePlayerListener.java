@@ -46,10 +46,14 @@ public class LevelFlarePlayerListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void onPlayerLevelChange (PlayerLevelChangeEvent event)
       {
+        Player player = event.getPlayer();
+        
+        if (!player.hasPermission("levelflare.flare"))
+          return;
+        
         FileConfiguration config = plugin.getConfig();
         int multiple = config.getInt("multiple");
         int level = event.getNewLevel();
-        Player player = event.getPlayer();
         
         if (level % multiple == 0)
           {
