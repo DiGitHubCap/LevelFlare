@@ -1,0 +1,76 @@
+# Fireworks display on levelling up.
+# Copyright (C) 2012 Andrew Stevanus (Hoot215) <hoot893@gmail.com>
+# 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+# 
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# 
+# 
+# allow-old-build: Whether or not to allow older versions (<2565) of Craftbukkit
+#                  using the plugin
+# multiple: Set this to the multiple number of levels you want the fireworks to
+#           occur on (Default is every 5 levels)
+# fireworks: A list of fireworks (created below) to be used on level up
+# [firework]:
+#   flicker: Whether or not the firework will flicker
+#   trail: Whether or not the firework has a trail
+#   type: The type of the firework
+#         Possible values: BALL, BALL_LARGE, BURST, CREEPER, STAR
+#   colours: A list of the colours of the firework
+#           Possible colours: AQUA, BLACK, BLUE, FUCHSIA, GRAY, GREEN, LIME,
+#                             MAROON, NAVY, OLIVE, ORANGE, PURPLE, RED, SILVER
+#                             TEAL, WHITE, YELLOW
+#   fades: A list of the fading colours of the firework
+#          (See above for possible colours)
+
+allow-old-build: false
+multiple: 5
+fireworks:
+- firework1
+- firework2
+- firework3
+firework1:
+  flicker: true
+  trail: false
+  type: BALL
+  colours:
+  - GREEN
+  - RED
+  - WHITE
+  fades:
+  - LIME
+  - FUCHSIA
+  - ORANGE
+firework2:
+  flicker: false
+  trail: true
+  type: BURST
+  colours:
+  - BLUE
+  - GRAY
+  - MAROON
+  fades:
+  - NAVY
+  - OLIVE
+  - PURPLE
+firework3:
+  flicker: true
+  trail: true
+  type: STAR
+  colours:
+  - SILVER
+  - TEAL
+  - YELLOW
+  fades:
+  - BLACK
+  - RED
+  - GREEN
