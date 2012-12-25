@@ -18,6 +18,10 @@
 
 package me.Hoot215.LevelFlare;
 
+import java.io.IOException;
+
+import me.Hoot215.LevelFlare.metrics.BukkitMetrics;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -140,6 +144,16 @@ public class LevelFlare extends JavaPlugin
         playerListener = new LevelFlarePlayerListener(this);
         this.getServer().getPluginManager()
             .registerEvents(playerListener, this);
+        
+        try
+          {
+            BukkitMetrics metrics = new BukkitMetrics(this);
+            metrics.start();
+          }
+        catch (IOException e)
+          {
+            e.printStackTrace();
+          }
         
         this.getLogger().info("Is now enabled");
       }
