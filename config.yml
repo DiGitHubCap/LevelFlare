@@ -20,6 +20,7 @@
 # multiple: Set this to the multiple number of levels you want the fireworks to
 #           occur on (Default is every 5 levels)
 # fireworks: A list of fireworks (created below) to be used on level up
+#            Use "RANDOM" (case sensitive) to get a firework with random attributes
 # [firework]:
 #   flicker: Whether or not the firework will flicker
 #   trail: Whether or not the firework has a trail
@@ -35,42 +36,19 @@
 allow-old-build: false
 multiple: 5
 fireworks:
-- firework1
-- firework2
-- firework3
-firework1:
+- RANDOM
+- RANDOM
+- RANDOM
+- creeper
+creeper:
   flicker: true
-  trail: false
-  type: BALL
+  trail: true
+  type: CREEPER
   colours:
-  - GREEN
-  - RED
-  - WHITE
-  fades:
   - LIME
-  - FUCHSIA
-  - ORANGE
-firework2:
-  flicker: false
-  trail: true
-  type: BURST
-  colours:
-  - BLUE
-  - GRAY
-  - MAROON
+  - LIME
+  - LIME
   fades:
-  - NAVY
-  - OLIVE
-  - PURPLE
-firework3:
-  flicker: true
-  trail: true
-  type: STAR
-  colours:
-  - SILVER
-  - TEAL
-  - YELLOW
-  fades:
-  - BLACK
-  - RED
+  - GREEN
+  - GREEN
   - GREEN

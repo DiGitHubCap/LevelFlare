@@ -20,6 +20,7 @@ package me.Hoot215.LevelFlare;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -37,6 +38,10 @@ import org.bukkit.inventory.meta.FireworkMeta;
 public class LevelFlarePlayerListener implements Listener
   {
     private LevelFlare plugin;
+    private static final Color[] COLOURS = {Color.AQUA, Color.BLACK,
+        Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME,
+        Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE,
+        Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
     
     public LevelFlarePlayerListener(LevelFlare instance)
       {
@@ -48,7 +53,7 @@ public class LevelFlarePlayerListener implements Listener
       {
         Player player = event.getPlayer();
         
-        if (!player.hasPermission("levelflare.flare"))
+        if ( !player.hasPermission("levelflare.flare"))
           return;
         
         FileConfiguration config = plugin.getConfig();
@@ -59,55 +64,111 @@ public class LevelFlarePlayerListener implements Listener
           {
             for (String s : config.getStringList("fireworks"))
               {
-                boolean flicker = config.getBoolean(s + ".flicker");
-                boolean trail = config.getBoolean(s + ".trail");
-                Type type = Type.valueOf(config.getString(s + ".type"));
+                boolean flicker;
+                boolean trail;
+                Type type;
                 List<Color> colours = new ArrayList<Color>();
-                for (String t : config.getStringList(s + ".colours"))
+                List<Color> fades = new ArrayList<Color>();
+                if (s.equals("RANDOM"))
                   {
-                    try
+                    flicker = new Random().nextBoolean();
+                    trail = new Random().nextBoolean();
+                    type =
+                        Type.values()[new Random()
+                            .nextInt(Type.values().length)];
+                    for (int i = 0; i < 3; i++)
                       {
-                        colours.add((Color) Color.class.getField(t).get(null));
-                      }
-                    catch (IllegalArgumentException e)
-                      {
-                        e.printStackTrace();
-                      }
-                    catch (IllegalAccessException e)
-                      {
-                        e.printStackTrace();
-                      }
-                    catch (NoSuchFieldException e)
-                      {
-                        e.printStackTrace();
-                      }
-                    catch (SecurityException e)
-                      {
-                        e.printStackTrace();
+                        colours.add(COLOURS[new Random()
+                            .nextInt(COLOURS.length)]);
+                        fades
+                            .add(COLOURS[new Random().nextInt(COLOURS.length)]);
                       }
                   }
-                List<Color> fades = new ArrayList<Color>();
-                for (String t : config.getStringList(s + ".fades"))
+                else
                   {
+                    if (config.getConfigurationSection(s) == null)
+                      {
+                        plugin.getLogger().warning(
+                            "Firework '" + s
+                                + "' does not exist in the config!");
+                        continue;
+                      }
+                    flicker = config.getBoolean(s + ".flicker");
+                    trail = config.getBoolean(s + ".trail");
+                    String typeString = config.getString(s + ".type");
                     try
                       {
-                        fades.add((Color) Color.class.getField(t).get(null));
+                        type = Type.valueOf(typeString);
                       }
                     catch (IllegalArgumentException e)
                       {
-                        e.printStackTrace();
+                        plugin.getLogger().warning(
+                            "Invalid type specified for firework '" + s + "'!");
+                        plugin.getLogger().warning("Using BALL instead");
+                        type = Type.BALL;
                       }
-                    catch (IllegalAccessException e)
+                    catch (NullPointerException e)
                       {
-                        e.printStackTrace();
+                        plugin.getLogger().warning(
+                            "Invalid type specified for firework '" + s + "'!");
+                        plugin.getLogger().warning("Using BALL instead");
+                        type = Type.BALL;
                       }
-                    catch (NoSuchFieldException e)
+                    for (String t : config.getStringList(s + ".colours"))
                       {
-                        e.printStackTrace();
+                        try
+                          {
+                            colours.add((Color) Color.class.getField(t).get(
+                                null));
+                          }
+                        catch (IllegalArgumentException e)
+                          {
+                            e.printStackTrace();
+                          }
+                        catch (IllegalAccessException e)
+                          {
+                            e.printStackTrace();
+                          }
+                        catch (NoSuchFieldException e)
+                          {
+                            plugin.getLogger().warning(
+                                "Invalid colour '" + t
+                                    + "' specified for firework '" + s + "'!");
+                            plugin.getLogger().warning("Using WHITE instead");
+                            colours.add(Color.WHITE);
+                          }
+                        catch (SecurityException e)
+                          {
+                            e.printStackTrace();
+                          }
                       }
-                    catch (SecurityException e)
+                    for (String t : config.getStringList(s + ".fades"))
                       {
-                        e.printStackTrace();
+                        try
+                          {
+                            fades
+                                .add((Color) Color.class.getField(t).get(null));
+                          }
+                        catch (IllegalArgumentException e)
+                          {
+                            e.printStackTrace();
+                          }
+                        catch (IllegalAccessException e)
+                          {
+                            e.printStackTrace();
+                          }
+                        catch (NoSuchFieldException e)
+                          {
+                            plugin.getLogger().warning(
+                                "Invalid fade '" + t
+                                    + "' specified for firework '" + s + "'!");
+                            plugin.getLogger().warning("Using WHITE instead");
+                            fades.add(Color.WHITE);
+                          }
+                        catch (SecurityException e)
+                          {
+                            e.printStackTrace();
+                          }
                       }
                   }
                 Firework firework =
