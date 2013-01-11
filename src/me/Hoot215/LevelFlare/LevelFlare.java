@@ -21,6 +21,7 @@ package me.Hoot215.LevelFlare;
 import java.io.IOException;
 
 import me.Hoot215.LevelFlare.metrics.BukkitMetrics;
+import me.Hoot215.updater.AutoUpdater;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -154,6 +155,8 @@ public class LevelFlare extends JavaPlugin
           {
             e.printStackTrace();
           }
+        
+        new AutoUpdater(this).start();
         
         this.getLogger().info("Is now enabled");
       }
