@@ -62,6 +62,9 @@ public class LevelFlarePlayerListener implements Listener
         
         if (level % multiple == 0)
           {
+            String message = config.getString("level-up-message");
+            if ( !message.isEmpty())
+              player.sendMessage(String.format(message, String.valueOf(level)));
             for (String s : config.getStringList("fireworks"))
               {
                 boolean flicker;
