@@ -27,10 +27,18 @@ permissions:
     children:
       levelflare.reload: true
       levelflare.update: true
+      levelflare.load: true
+      levelflare.unload: true
   levelflare.reload:
     description: "Gives access to the command '/levelflare reload'"
   levelflare.update:
     description: "Informs the user if a new update is available"
+  levelflare.levellers:
+    description: "Gives access to the command '/levelflare levellers'"
+  levelflare.load:
+    descritpion: "Gives access to the command '/levelflare load'"
+  levelflare.unload:
+    descritpion: "Gives access to the command '/levelflare unload'"
   levelflare.flare:
     description: "Allows the user to have a firework flare on level up"
     default: true

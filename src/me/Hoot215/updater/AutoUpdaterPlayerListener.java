@@ -63,7 +63,7 @@ public class AutoUpdaterPlayerListener implements Listener
                                 + autoUpdater.getNewestVersion()
                                 + ChatColor.GRAY + ")");
                             String site = autoUpdater.getSite();
-                            if (site != null && !site.isEmpty())
+                            if (!site.isEmpty())
                               {
                                 player.sendMessage(ChatColor.GREEN
                                     + "Download it here: " + ChatColor.BLUE

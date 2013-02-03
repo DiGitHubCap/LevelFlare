@@ -30,6 +30,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class AutoUpdater implements Runnable
   {
     private JavaPlugin plugin;
+    private final String pluginName;
     private String localVersion;
     private String remoteVersion;
     private String site;
@@ -39,8 +40,10 @@ public class AutoUpdater implements Runnable
     public AutoUpdater(JavaPlugin instance)
       {
         plugin = instance;
+        pluginName = plugin.getName();
         localVersion = plugin.getDescription().getVersion();
-        site = plugin.getDescription().getWebsite();
+        String site = plugin.getDescription().getWebsite();
+        this.site = site == null ? "" : site;
         playerListener = new AutoUpdaterPlayerListener(plugin, this);
       }
     
@@ -72,52 +75,68 @@ public class AutoUpdater implements Runnable
           {
             try
               {
-                URL url =
-                    new URL("http://dl.dropbox.com/u/56151340/BukkitPlugins/"
-                        + plugin.getName() + "/latest");
-                Scanner s = new Scanner(url.openStream());
-                remoteVersion = s.nextLine();
-                if (this.updateCheck())
-                  {
-                    upToDate.set(false);
-                    plugin.getServer().getScheduler()
-                        .scheduleSyncDelayedTask(plugin, new Runnable()
-                          {
-                            public void run ()
-                              {
-                                plugin.getLogger().info(
-                                    "A newer version of " + plugin.getName()
-                                        + " is available! (v" + remoteVersion
-                                        + ")");
-                                if (site != null && !site.isEmpty())
-                                  {
-                                    plugin.getLogger().info(
-                                        "Download it here: " + site);
-                                  }
-                              }
-                          });
-                  }
-                s.close();
+                this.updateCheck();
                 Thread.sleep(3600000L);
-              }
-            catch (MalformedURLException e)
-              {
-                e.printStackTrace();
               }
             catch (InterruptedException e)
               {
                 e.printStackTrace();
               }
-            catch (IOException e)
-              {
-              }
-            catch (NoSuchElementException e)
-              {
-              }
           }
       }
     
-    private boolean updateCheck ()
+    public synchronized boolean updateCheck ()
+      {
+        Scanner s = null;
+        try
+          {
+            URL url =
+                new URL("http://dl.dropbox.com/u/56151340/BukkitPlugins/"
+                    + plugin.getName() + "/latest");
+            s = new Scanner(url.openStream());
+            remoteVersion = s.nextLine();
+            if (this.compareVersions())
+              {
+                upToDate.set(false);
+                plugin.getServer().getScheduler()
+                    .scheduleSyncDelayedTask(plugin, new Runnable()
+                      {
+                        public void run ()
+                          {
+                            plugin.getLogger()
+                                .info(
+                                    "A newer version of " + pluginName
+                                        + " is available! (v" + remoteVersion
+                                        + ")");
+                            if (!site.isEmpty())
+                              {
+                                plugin.getLogger().info(
+                                    "Download it here: " + site);
+                              }
+                          }
+                      });
+                return true;
+              }
+            upToDate.set(true);
+          }
+        catch (MalformedURLException e)
+          {
+            e.printStackTrace();
+          }
+        catch (IOException e)
+          {
+          }
+        catch (NoSuchElementException e)
+          {
+          }
+        finally
+          {
+            s.close();
+          }
+        return false;
+      }
+    
+    private boolean compareVersions ()
       {
         String[] local = localVersion.split("\\.");
         String[] remote = remoteVersion.split("\\.");
