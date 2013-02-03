@@ -17,6 +17,8 @@
 # 
 # allow-old-build: Whether or not to allow older versions (<2565) of Craftbukkit
 #                  using the plugin
+# auto-update-check: Whether or not to perform hourly update checks and notify
+#                    ops when a new version is available
 # level-up-message: The message to send to the user when they level up
 #                   %s represents the new level
 #                   Use "" for no message
@@ -37,6 +39,7 @@
 #          (See above for possible colours)
 
 allow-old-build: false
+auto-update-check: true
 level-up-message: "§5You have just levelled up! §dNew level§7: §6%s§7."
 multiple: 5
 fireworks:

@@ -64,9 +64,13 @@ public class AutoUpdater implements Runnable
     
     public void start ()
       {
-        plugin.getServer().getPluginManager()
-            .registerEvents(playerListener, plugin);
-        new Thread(this).start();
+        if ( !plugin.getConfig().isBoolean("auto-update-check")
+            || plugin.getConfig().getBoolean("auto-update-check"))
+          {
+            plugin.getServer().getPluginManager()
+                .registerEvents(playerListener, plugin);
+            new Thread(this).start();
+          }
       }
     
     public void run ()
@@ -108,7 +112,7 @@ public class AutoUpdater implements Runnable
                                     "A newer version of " + pluginName
                                         + " is available! (v" + remoteVersion
                                         + ")");
-                            if (!site.isEmpty())
+                            if ( !site.isEmpty())
                               {
                                 plugin.getLogger().info(
                                     "Download it here: " + site);
