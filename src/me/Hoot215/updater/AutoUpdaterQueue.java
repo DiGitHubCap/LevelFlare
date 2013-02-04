@@ -54,6 +54,8 @@ public class AutoUpdaterQueue implements Runnable
             try
               {
                 CommandSender sender = queue.take();
+                if (sender == null)
+                  break;
                 if (autoUpdater.updateCheck())
                   {
                     sender.sendMessage(ChatColor.GREEN + "A newer version of "

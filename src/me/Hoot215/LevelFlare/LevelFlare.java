@@ -320,6 +320,9 @@ public class LevelFlare extends JavaPlugin
         this.getLevellerManager().unloadLevellers();
         this.getLogger().info("Levellers unloaded");
         
+        // Auto updater
+        autoUpdaterQueue.add(null);
+        
         this.getLogger().info("Is now disabled");
       }
     

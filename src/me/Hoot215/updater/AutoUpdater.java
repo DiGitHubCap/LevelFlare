@@ -77,6 +77,8 @@ public class AutoUpdater implements Runnable
       {
         while (true)
           {
+            if (!plugin.isEnabled())
+              break;
             try
               {
                 this.updateCheck();
