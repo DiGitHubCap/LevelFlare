@@ -118,7 +118,7 @@ public class LevellerManager
                   {
                     for (Class<?> clazz : m.getParameterTypes())
                       {
-                        if (clazz.isAssignableFrom(Event.class))
+                        if (Event.class.isAssignableFrom(clazz))
                           {
                             try
                               {
