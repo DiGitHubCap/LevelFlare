@@ -27,6 +27,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -165,12 +166,10 @@ public class LevellerManager
     
     public void unloadLevellers ()
       {
-        for (String s : levellerNames)
+        Iterator<String> iter = levellerNames.iterator();
+        while (iter.hasNext())
           {
-            if (s == null)
-              return;
-            
-            this.unloadLeveller(s);
+            this.unloadLeveller(iter.next());
           }
       }
     
