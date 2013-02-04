@@ -17,7 +17,7 @@
 
 name: LevelFlare
 main: me.Hoot215.LevelFlare.LevelFlare
-version: 1.5
+version: 1.6
 author: Hoot215
 website: 'http://dev.bukkit.org/server-mods/levelflare/'
 permissions:
